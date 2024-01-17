@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Freecodecamp tutorial: https://www.freecodecamp.org/news/create-a-virtual-world-with-javascript/?ref=dailydev "
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Editor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>World Editor</h1>
+    <canvas id="canvas"></canvas>
+
+    <script src="js/math/graph.js" />
+    <script>
+      canvas.width = 600;
+      canvas.height = 600;
+
+      const ctx = canvas.getContext("2d");
+
+      const graph = new Graph();
+      graph.draw(ctx);
+    </script>
+  </body>
+</html>
