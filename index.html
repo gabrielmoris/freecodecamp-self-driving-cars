@@ -16,6 +16,9 @@
     <div id="controls">
       <button onclick="addRandomPoint()">Add Point</button>
       <button onclick="addRandomSegment()">Add Segment</button>
+      <button onclick="removeRandomSegment()">Remove Segment</button>
+      <button onclick="removeRandomPoint()">Remove Point</button>
+      <button onclick="removeAll()">Remove All</button>
     </div>
 
     <script src="js/math/graph.js"></script>
@@ -23,6 +26,36 @@
     <script src="js/primitives/segment.js"></script>
 
     <script>
+      function removeAll() {
+        graph.dispose();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        graph.draw(ctx);
+      }
+
+      function removeRandomPoint() {
+        if (graph.points.length === 0) {
+          console.log("no points");
+          return;
+        }
+        const index = Math.floor(Math.random() * graph.points.length);
+        graph.removePoint(graph.points[index]);
+        // To see the changes I need to clean and redraw the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        graph.draw(ctx);
+      }
+
+      function removeRandomSegment() {
+        if (graph.segments.length === 0) {
+          console.log("no segments");
+          return;
+        }
+        const index = Math.floor(Math.random() * graph.segments.length);
+        graph.removeSegment(graph.segments[index]);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        graph.draw(ctx);
+      }
+
       function addRandomSegment() {
         const index1 = Math.floor(Math.random() * graph.points.length);
         const index2 = Math.floor(Math.random() * graph.points.length);
@@ -30,14 +63,13 @@
         const success = graph.tryAddSegment(new Segment(graph.points[index1], graph.points[index2]));
         console.log(success);
 
-        // To see the changes I need to clean and redraw the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         graph.draw(ctx);
       }
 
       function addRandomPoint() {
         const success = graph.tryAddPoint(new Point(Math.random() * canvas.width, Math.random() * canvas.height));
-        // To see the changes I need to clean and redraw the canvas
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         graph.draw(ctx);
       }
