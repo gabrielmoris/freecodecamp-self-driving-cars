@@ -13,12 +13,35 @@
   <body>
     <h1>World Editor</h1>
     <canvas id="canvas"></canvas>
+    <div id="controls">
+      <button onclick="addRandomPoint()">Add Point</button>
+      <button onclick="addRandomSegment()">Add Segment</button>
+    </div>
 
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
 
     <script>
+      function addRandomSegment() {
+        const index1 = Math.floor(Math.random() * graph.points.length);
+        const index2 = Math.floor(Math.random() * graph.points.length);
+
+        const success = graph.tryAddSegment(new Segment(graph.points[index1], graph.points[index2]));
+        console.log(success);
+
+        // To see the changes I need to clean and redraw the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        graph.draw(ctx);
+      }
+
+      function addRandomPoint() {
+        const success = graph.tryAddPoint(new Point(Math.random() * canvas.width, Math.random() * canvas.height));
+        // To see the changes I need to clean and redraw the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        graph.draw(ctx);
+      }
+
       canvas.width = 600;
       canvas.height = 600;
 
