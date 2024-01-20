@@ -4,8 +4,9 @@ class Viewport {
     this.ctx = canvas.getContext("2d");
 
     this.zoom = 1;
+    this.center = new Point(canvas.width / 2, canvas.height / 2);
     // the offset is where the screen is focusin when I do zoom
-    this.offset = new Point(0, 0);
+    this.offset = scale(this.center, -1);
 
     this.drag = {
       start: new Point(0, 0),
@@ -17,8 +18,23 @@ class Viewport {
     this.#addEventListeners();
   }
 
-  getMouse(e) {
-    return new Point(e.offsetX * this.zoom, e.offsetY * this.zoom);
+  reset() {
+    this.ctx.restore();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.save();
+    this.ctx.translate(this.center.x, this.center.y);
+    this.ctx.scale(1 / this.zoom, 1 / this.zoom);
+    const offset = this.getOffset();
+    this.ctx.translate(offset.x, offset.y);
+  }
+
+  getMouse(e, substractDragOffset = false) {
+    const p = new Point((e.offsetX - this.center.x) * this.zoom - this.offset.x, (e.offsetY - this.center.y) * this.zoom - this.offset.y);
+    return substractDragOffset ? substract(p, this.drag.offset) : p;
+  }
+
+  getOffset() {
+    return add(this.offset, this.drag.offset);
   }
 
   #addEventListeners() {
