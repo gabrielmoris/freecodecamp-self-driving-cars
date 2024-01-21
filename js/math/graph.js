@@ -4,6 +4,35 @@ class Graph {
     this.segments = segments;
   }
 
+  // this fn belongs to the class, not to the inscances
+  static load(info) {
+    const points = info.points.map((i) => new Point(i.x, i.y));
+    const segments = info.segments.map(
+      (i) =>
+        new Segment(
+          points.find((p) => p.equalPoints(i.p1)),
+          points.find((p) => p.equalPoints(i.p2))
+        )
+    );
+    // this would be a more declarative version
+    // const points ==[]
+    // const segments = [];
+
+    // for (const pointInfo of info.points) {
+    //   points.push(new Point(pointInfo.x, pointInfo.y));
+    // }
+    // for (const segmentInfo of info.segments) {
+    //   segments.push(
+    //     new Segment(
+    //       points.find((p) => p.equalPoints(segmentInfo.p1)),
+    //       points.find((p) => p.equalPoints(segmentInfo.p2))
+    //     )
+    //   );
+    // }
+
+    return new Graph(points, segments);
+  }
+
   // POINTS SECTION
   addPoint(point) {
     this.points.push(point);
