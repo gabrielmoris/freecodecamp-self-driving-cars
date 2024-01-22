@@ -73,6 +73,7 @@ class Viewport {
   }
 
   #handleMouseWheel(e) {
+    e.preventDefault();
     const direction = Math.sign(e.deltaY);
     const step = 0.05;
     this.zoom += direction * step;
