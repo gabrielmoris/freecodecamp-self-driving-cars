@@ -43,9 +43,18 @@ class Polygon {
 
     for (let i = 0; i < segs1.length; i++) {
       for (let j = 0; j < segs2.length; j++) {
-        const intersection = getIntersection(segs1[i].p1, segs1[i].p2, segs2[j].p1, segs2[j].p2);
+        const intersection = getIntersection(
+          segs1[i].p1,
+          segs1[i].p2,
+          segs2[j].p1,
+          segs2[j].p2
+        );
 
-        if (intersection && intersection.offset != 1 && intersection.offset != 0) {
+        if (
+          intersection &&
+          intersection.offset != 1 &&
+          intersection.offset != 0
+        ) {
           const point = new Point(intersection.x, intersection.y);
           let aux = segs1[i].p2;
           segs1[i].p2 = point;
@@ -56,6 +65,17 @@ class Polygon {
         }
       }
     }
+  }
+
+  intersectsPoly(poly) {
+    for (let s1 of this.segments) {
+      for (let s2 of poly.segments) {
+        if (getIntersection(s1.p1, s1.p2, s2.p1, s2.p2)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   containsSegment(seg) {
@@ -82,7 +102,10 @@ class Polygon {
     }
   }
 
-  draw(ctx, { stroke = "blue", lineWidth = 2, fill = "rgba(70, 70, 173, 0.3)" } = {}) {
+  draw(
+    ctx,
+    { stroke = "blue", lineWidth = 2, fill = "rgba(70, 70, 173, 0.3)" } = {}
+  ) {
     ctx.beginPath();
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
