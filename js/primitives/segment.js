@@ -4,6 +4,14 @@ class Segment {
     this.p2 = p2;
   }
 
+  length() {
+    return distance(this.p1, this.p2);
+  }
+
+  directionVector() {
+    return normalize(substract(this.p2, this.p1));
+  }
+
   equalSegments(segment) {
     // return (
     //   (this.p1.equalPoints(segment.p1) && this.p2.equalPoints(segment.p2)) || (this.p1.equalPoints(segment.p2) && this.p2.equalPoints(segment.p1))
