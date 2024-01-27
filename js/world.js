@@ -37,7 +37,7 @@ class World {
     this.trees = this.#generateTrees();
   }
 
-  #generateTrees(count = 10) {
+  #generateTrees() {
     const points = [
       ...this.roadBorders.map((s) => [s.p1, s.p2]).flat(),
       ...this.buildings.map((b) => b.points).flat(),
@@ -55,12 +55,16 @@ class World {
 
     const trees = [];
 
-    while (trees.length < count) {
+    let tryCount = 0;
+
+    while (tryCount < 100) {
       const p = new Point(
         lerp(left, right, Math.random()),
         lerp(bottom, top, Math.random())
       );
 
+      // Here I filter the Trees I dont want
+      // 1. chech if tree is inside ir nearby building or road
       let keep = true;
 
       for (const poly of illegalPolys) {
@@ -72,7 +76,7 @@ class World {
           break;
         }
       }
-
+      // 2. check if three is close to other trees
       if (keep) {
         for (const tree of trees) {
           if (distance(tree, p) < this.treeSize) {
@@ -82,9 +86,25 @@ class World {
         }
       }
 
+      // 3. Check if trees are far away
+
+      if (keep) {
+        let closeToSomething = false;
+        for (const poly of illegalPolys) {
+          if (poly.distanceToPoint(p) < this.treeSize * 2) {
+            closeToSomething = true;
+            break;
+          }
+        }
+        keep = closeToSomething;
+      }
+
+      // Here I add the trees I want
       if (keep) {
         trees.push(p);
+        tryCount = 0;
       }
+      tryCount++;
     }
     return trees;
   }
@@ -140,9 +160,13 @@ class World {
       bases.push(new Envelope(seg, this.buildingWidth).poly);
     }
 
+    const eps = 0.001;
     for (let i = 0; i < bases.length - 1; i++) {
       for (let j = i + 1; j < bases.length; j++) {
-        if (bases[i].intersectsPoly(bases[j])) {
+        if (
+          bases[i].intersectsPoly(bases[j]) ||
+          bases[i].distanceToPoly(bases[j]) < this.spacing - eps
+        ) {
           bases.splice(j, 1);
           j--;
         }
