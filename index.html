@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>World Editor</h1>
-    <h1>Minute 3:03:48</h1>
+    <h1>Minute 3:23:03</h1>
     <canvas id="canvas"></canvas>
     <div id="controls">
       <button onclick="dispose()">🗑️</button>
@@ -43,11 +43,16 @@
       const viewport = new Viewport(canvas);
       const graphEditor = new GraphEditor(viewport, graph);
 
+      let oldGraphHash = graph.hash();
+
       animate();
 
       function animate() {
         viewport.reset();
-        world.generate();
+        if (graph.hash() != oldGraphHash) {
+          world.generate();
+          oldGraphHash = graph.hash();
+        }
         world.draw(ctx);
         ctx.globalAlpha = 0.3;
         graphEditor.display();
