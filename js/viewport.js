@@ -3,7 +3,7 @@ class Viewport {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
 
-    this.zoom = 1;
+    this.zoom = 3;
     this.center = new Point(canvas.width / 2, canvas.height / 2);
     // the offset is where the screen is focusin when I do zoom
     this.offset = scale(this.center, -1);
@@ -29,7 +29,10 @@ class Viewport {
   }
 
   getMouse(e, substractDragOffset = false) {
-    const p = new Point((e.offsetX - this.center.x) * this.zoom - this.offset.x, (e.offsetY - this.center.y) * this.zoom - this.offset.y);
+    const p = new Point(
+      (e.offsetX - this.center.x) * this.zoom - this.offset.x,
+      (e.offsetY - this.center.y) * this.zoom - this.offset.y
+    );
     return substractDragOffset ? substract(p, this.drag.offset) : p;
   }
 
@@ -38,7 +41,10 @@ class Viewport {
   }
 
   #addEventListeners() {
-    this.canvas.addEventListener("mousewheel", this.#handleMouseWheel.bind(this));
+    this.canvas.addEventListener(
+      "mousewheel",
+      this.#handleMouseWheel.bind(this)
+    );
     this.canvas.addEventListener("mousedown", this.#handleMouseDown.bind(this));
     this.canvas.addEventListener("mousemove", this.#handleMouseMove.bind(this));
     this.canvas.addEventListener("mouseup", this.#handleMouseUp.bind(this));
@@ -75,8 +81,8 @@ class Viewport {
   #handleMouseWheel(e) {
     e.preventDefault();
     const direction = Math.sign(e.deltaY);
-    const step = 0.05;
+    const step = 0.08;
     this.zoom += direction * step;
-    this.zoom = Math.max(1, Math.min(5, this.zoom));
+    this.zoom = Math.max(1, Math.min(15, this.zoom));
   }
 }

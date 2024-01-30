@@ -80,6 +80,10 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
+function lerp2D(A, B, T) {
+  return new Point(lerp(A.x, B.x, T), lerp(A.y, B.y, T));
+}
+
 function getRandomColor() {
   const hue = 290 + Math.random() * 260;
   return `hsl(${hue}, 100%, 60%)`;
