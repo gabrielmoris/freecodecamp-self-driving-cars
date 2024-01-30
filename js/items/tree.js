@@ -19,7 +19,7 @@ class Tree {
   }
 
   draw(ctx, viewPoint) {
-    const diff = substract(this.center, viewPoint);
+    const diff = subtract(this.center, viewPoint);
 
     const top = add(this.center, scale(diff, this.heightCoef));
 

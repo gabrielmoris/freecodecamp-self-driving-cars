@@ -8,7 +8,7 @@ class Envelope {
     const { p1, p2 } = this.skeleton;
 
     const radius = width / 2;
-    const alpha = angle(substract(p1, p2));
+    const alpha = angle(subtract(p1, p2));
     const alpha_cw = alpha + Math.PI / 2;
     const alpha_ccw = alpha - Math.PI / 2;
 
