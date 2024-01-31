@@ -11,3 +11,29 @@ h1 {
 #canvas {
   background-color: rgb(39, 168, 39);
 }
+
+button {
+  background-color: white;
+  font-size: 20px;
+  height: 3rem;
+  width: 3rem;
+  /* padding: 5px 7px; */
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.7rem;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls-wrapper {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  border-radius: 5px;
+}

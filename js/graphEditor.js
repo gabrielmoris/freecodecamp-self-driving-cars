@@ -9,16 +9,36 @@ class GraphEditor {
     this.hovered = null;
     this.dragging = false;
     this.mouse = null;
+  }
 
+  enable() {
     this.#addEventListeners();
   }
 
+  disable() {
+    this.#removeEventListeners();
+    this.selected = false;
+    this.hovered = false;
+  }
+
   #addEventListeners() {
+    this.boundMouseDown = this.#handleMouseDown.bind(this);
+    this.boudMouseMove = this.#handleMouseMove.bind(this);
+    this.boundMouseUp = () => (this.dragging = false);
+    this.boundContextMenu = (e) => e.preventDefault();
     // I have to bind this to use the context of GraphEditor instead of the canvas
-    this.canvas.addEventListener("mousedown", this.#handleMouseDown.bind(this));
-    this.canvas.addEventListener("mousemove", this.#handleMouseMove.bind(this));
-    this.canvas.addEventListener("contextmenu", (e) => e.preventDefault());
-    this.canvas.addEventListener("mouseup", () => (this.dragging = false));
+    this.canvas.addEventListener("mousedown", this.boundMouseDown);
+    this.canvas.addEventListener("mousemove", this.boudMouseMove);
+    this.canvas.addEventListener("mouseup", this.boundMouseUp);
+    this.canvas.addEventListener("contextmenu", this.boundContextMenu);
+  }
+
+  #removeEventListeners() {
+    // I have to bind this to use the context of GraphEditor instead of the canvas
+    this.canvas.removeEventListener("mousedown", this.boundMouseDown);
+    this.canvas.removeEventListener("mousemove", this.boudMouseMove);
+    this.canvas.removeEventListener("mouseup", this.boundMouseUp);
+    this.canvas.removeEventListener("contextmenu", this.boundContextMenu);
   }
 
   #handleMouseDown(e) {
@@ -45,7 +65,11 @@ class GraphEditor {
 
   #handleMouseMove(e) {
     this.mouse = this.viewport.getMouse(e, true);
-    this.hovered = getNearestPoint(this.mouse, this.graph.points, 10 * this.viewport.zoom);
+    this.hovered = getNearestPoint(
+      this.mouse,
+      this.graph.points,
+      10 * this.viewport.zoom
+    );
     if (this.dragging == true) {
       this.selected.x = this.mouse.x;
       this.selected.y = this.mouse.y;

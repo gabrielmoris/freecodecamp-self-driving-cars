@@ -15,8 +15,14 @@
     <h1>Minute 4:04:47</h1>
     <canvas id="canvas"></canvas>
     <div id="controls">
-      <button onclick="dispose()">🗑️</button>
-      <button onclick="save()">💾</button>
+      <div class="controls-wrapper">
+        <button onclick="dispose()">🗑️</button>
+        <button onclick="save()">💾</button>
+        <!-- Empty Space -->
+        &nbsp;
+        <button id="graphBtn" onclick="setMode('graph')">🌐</button>
+        <button id="stopBtn" onclick="setMode('stop')">🛑</button>
+      </div>
     </div>
 
     <script src="js/world.js"></script>
@@ -47,6 +53,8 @@
 
       let oldGraphHash = graph.hash();
 
+      setMode("graph");
+
       animate();
 
       function animate() {
@@ -69,6 +77,29 @@
 
       function save() {
         localStorage.setItem("graph", JSON.stringify(graph));
+      }
+
+      function setMode(mode) {
+        disableEditors();
+        switch (mode) {
+          case "graph":
+            graphBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+            graphBtn.style.filter = "";
+            graphEditor.enable();
+            break;
+          case "stop":
+            stopBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+            stopBtn.style.filter = "";
+            break;
+        }
+      }
+
+      function disableEditors() {
+        graphBtn.style.backgroundColor = "rgba(0, 0, 0, 0)";
+        graphBtn.style.filter = "grayscale(100%)";
+        graphEditor.disable();
+        stopBtn.style.backgroundColor = "rgba(0, 0, 0, 0)";
+        stopBtn.style.filter = "grayscale(100%)";
       }
     </script>
   </body>
