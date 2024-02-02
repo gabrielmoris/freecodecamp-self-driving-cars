@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>World Editor</h1>
-    <h1>Minute 4:04:47</h1>
+    <h1>Minute 4:45:00</h1>
     <canvas id="canvas"></canvas>
     <div id="controls">
       <div class="controls-wrapper">
@@ -26,8 +26,10 @@
     </div>
 
     <script src="js/world.js"></script>
-    <script src="js/graphEditor.js"></script>
     <script src="js/viewport.js"></script>
+    <script src="js/markings/stop.js"></script>
+    <script src="js/editors/graphEditor.js"></script>
+    <script src="js/editors/stopEditor.js"></script>
     <script src="js/items/tree.js"></script>
     <script src="js/items/building.js"></script>
     <script src="js/math/utils.js"></script>
@@ -50,6 +52,7 @@
       const world = new World(graph);
       const viewport = new Viewport(canvas);
       const graphEditor = new GraphEditor(viewport, graph);
+      const stopEditor = new StopEditor(viewport, world);
 
       let oldGraphHash = graph.hash();
 
@@ -68,11 +71,13 @@
         world.draw(ctx, viewPoint);
         ctx.globalAlpha = 0.3;
         graphEditor.display();
+        stopEditor.display();
         requestAnimationFrame(animate);
       }
 
       function dispose() {
         graphEditor.dispose();
+        world.markings.length = 0;
       }
 
       function save() {
@@ -90,6 +95,7 @@
           case "stop":
             stopBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
             stopBtn.style.filter = "";
+            stopEditor.enable();
             break;
         }
       }
@@ -100,6 +106,7 @@
         graphEditor.disable();
         stopBtn.style.backgroundColor = "rgba(0, 0, 0, 0)";
         stopBtn.style.filter = "grayscale(100%)";
+        stopEditor.disable();
       }
     </script>
   </body>
