@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>World Editor</h1>
-    <h1>Minute 4:20:00</h1>
+    <h1>Minute 4:45:00</h1>
     <canvas id="canvas"></canvas>
     <div id="controls">
       <div class="controls-wrapper">
@@ -27,6 +27,7 @@
 
     <script src="js/world.js"></script>
     <script src="js/viewport.js"></script>
+    <script src="js/markings/stop.js"></script>
     <script src="js/editors/graphEditor.js"></script>
     <script src="js/editors/stopEditor.js"></script>
     <script src="js/items/tree.js"></script>
@@ -76,6 +77,7 @@
 
       function dispose() {
         graphEditor.dispose();
+        world.markings.length = 0;
       }
 
       function save() {
