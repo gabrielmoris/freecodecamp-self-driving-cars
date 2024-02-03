@@ -1,22 +1,18 @@
-class Stop extends Marking {
+class Start extends Marking {
   constructor(center, directionVector, width, height) {
     super(center, directionVector, width, height);
-    this.border = this.poly.segments[2];
+
+    this.img = new Image();
+
+    this.img.src = `car${Math.ceil(Math.random() * 3)}.png`;
   }
 
   draw(ctx) {
-    this.border.draw(ctx, { width: 5, color: "white" });
     ctx.save();
     ctx.translate(this.center.x, this.center.y);
     ctx.rotate(angle(this.directionVector) - Math.PI / 2);
-    ctx.scale(1, 2.5);
 
-    ctx.beginPath();
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "white";
-    ctx.font = `bold ${this.height * 0.3}px Verdana`;
-    ctx.fillText("STOP", 0, 1);
+    ctx.drawImage(this.img, -this.img.width / 2, -this.img.height / 2);
 
     ctx.restore();
   }
