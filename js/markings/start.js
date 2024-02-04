@@ -5,6 +5,7 @@ class Start extends Marking {
     this.img = new Image();
 
     this.img.src = `car${Math.ceil(Math.random() * 3)}.png`;
+    this.type = "start";
   }
 
   draw(ctx) {

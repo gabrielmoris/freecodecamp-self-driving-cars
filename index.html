@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>World Editor</h1>
-    <h1>Minute 4:45:00</h1>
+    <h1>Minute 5:23:00</h1>
     <canvas id="canvas"></canvas>
     <div id="controls">
       <div class="controls-wrapper">
@@ -65,11 +65,11 @@
 
       const ctx = canvas.getContext("2d");
       // check LS for a graph
-      const graphString = localStorage.getItem("graph");
-      const graphInfo = graphString ? JSON.parse(graphString) : null;
-      const graph = graphInfo ? Graph.load(graphInfo) : new Graph();
+      const worldString = localStorage.getItem("world");
+      const worldInfo = worldString ? JSON.parse(worldString) : null;
+      let world = worldInfo ? World.load(worldInfo) : new World(new Graph());
+      const graph = world.graph;
 
-      const world = new World(graph);
       const viewport = new Viewport(canvas);
 
       const tools = {
@@ -111,7 +111,7 @@
       }
 
       function save() {
-        localStorage.setItem("graph", JSON.stringify(graph));
+        localStorage.setItem("world", JSON.stringify(world));
       }
 
       function setMode(mode) {
