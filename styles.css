@@ -12,19 +12,29 @@ h1 {
   background-color: rgb(39, 168, 39);
 }
 
-button {
+button,
+.file-input-label {
+  display: inline-block;
+  flex-direction: row;
   background-color: white;
   font-size: 20px;
   height: 3rem;
   width: 3rem;
-  /* padding: 5px 7px; */
-  padding: 0;
+  padding: 5px 7px;
   border: none;
   border-radius: 5px;
   font-size: 1.7rem;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
 }
+
+input[type="file"] {
+  display: none;
+}
+
+/* .file-input-label {
+  padding: 5px 7px;
+} */
 
 #controls {
   display: flex;
@@ -33,7 +43,15 @@ button {
 }
 
 .controls-wrapper {
+  display: flex;
+  flex-direction: row;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 0.5rem;
   border-radius: 5px;
+}
+
+.vertical-line {
+  width: 1px;
+  border-left: rgba(255, 255, 255, 0.322) 1px solid;
+  margin-right: 20px;
 }

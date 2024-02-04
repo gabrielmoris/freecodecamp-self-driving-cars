@@ -1,12 +1,12 @@
 class Viewport {
-  constructor(canvas) {
+  constructor(canvas, zoom = 3, offset = null) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
 
-    this.zoom = 3;
+    this.zoom = zoom;
     this.center = new Point(canvas.width / 2, canvas.height / 2);
     // the offset is where the screen is focusin when I do zoom
-    this.offset = scale(this.center, -1);
+    this.offset = offset ? offset : scale(this.center, -1);
 
     this.drag = {
       start: new Point(0, 0),
